@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: docker.io/safernandez666/app
+  repository: docker.io/matt666/app
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   #tag: "a4ef99b"
@@ -51,7 +51,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: app.esprueba.com
+    - host: app.pruebita.com
       paths:
         - path: /
           pathType: ImplementationSpecific
