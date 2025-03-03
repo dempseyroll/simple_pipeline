@@ -1,0 +1,54 @@
+name: Build and Push Docker Image to Docker Hub
+
+on: 
+  push:
+    branches:
+      - main
+    paths-ignore: # Si realizamos cambios, aqui, no se dispara el pipeline.
+      - 'k8s/**'
+      - 'README.md'
+
+jobs:
+  build-and-update: # Construccion de la Imagen & Push en DockerHub
+    name: Build Image and Update Helm Chart
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        # Agregamos el TAG para subir no solo latest, si no tambien la version.
+      - name: Extract version number from GIT SHA
+        id: extract_sha
+        run: echo "BUILD_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: app/
+          push: true
+          tags: matt666/app:latest, matt666/app:${{ env.BUILD_TAG }}
+
+      - name: Update tag in Helm Chart # Cambiamos por el numero de version el values.yaml
+        run: |
+          sed -i 's/tag: .*/tag: "${{ env.BUILD_TAG }}"/' app-chart/values.yaml
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "veronmatias94@gmail.com"
+          git config --global user.name "Matias Veron"
+          git add app-chart/values.yaml
+          git commit -m "Update tag to '${{ env.BUILD_TAG }}' after building image"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Usando el token para autenticar el push
