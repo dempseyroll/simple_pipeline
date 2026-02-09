@@ -5,10 +5,11 @@
 replicaCount: 1
 
 image:
-  repository: docker.io/safernandez666/app
+  repository: docker.io/matt666/app
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "a4ef99b"
+  #tag: "a4ef99b"
+  tag: "latest"
 
 imagePullSecrets: []
 nameOverride: "app"

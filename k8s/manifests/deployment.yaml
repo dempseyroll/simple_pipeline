@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: app
-        image: safernandez666/app # Cambiar por tu imagen en DockerHub.com
+        image: matt666/app # Cambiar por tu imagen en DockerHub.com
         ports:
         - containerPort: 80
