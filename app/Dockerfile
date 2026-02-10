@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM --platform=$TARGETPLATFORM nginx:alpine
 
 # Bring in the microbot
 COPY html /usr/share/nginx/html
