@@ -37,7 +37,10 @@ jobs:
         with:
           context: app/
           push: true
-          tags: matt666/app:latest, matt666/app:${{ env.BUILD_TAG }}
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            matt666/app:latest
+            matt666/app:${{ env.BUILD_TAG }}
 
       - name: Update tag in Helm Chart
         run: |
