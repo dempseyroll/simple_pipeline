@@ -6,13 +6,6 @@ else
  tagver="${1}"
 fi
 
-echo "Installing multiarch support"
-docker run --privileged --rm tonistiigi/binfmt --install all
-
-echo "Creating builder"
-docker buildx create --use || true
-docker buildx inspect --bootstrap
-
 echo "Now building: ${imagename}:${tagver}"
-docker buildx build --platform linux/amd64,linux/arm64 --rm --no-cache --pull -t ${imagename}:${tagver} --push .
-#docker push ${imagename}:${tagver}
+docker build --rm --no-cache --pull -t ${imagename}:${tagver} .
+docker push ${imagename}:${tagver}
