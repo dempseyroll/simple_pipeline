@@ -6,5 +6,5 @@ else
  tagver="${1}"
 fi
 echo "Now building: ${imagename}:${tagver}"
-docker buildx build --platform linux/amd64,linux/arm64 --rm=true --no-cache=true --pull=true -t ${imagename}:${tagver} --push .
+docker buildx build --platform linux/amd64,linux/arm64 --rm --no-cache --pull -t ${imagename}:${tagver} --push .
 #docker push ${imagename}:${tagver}
