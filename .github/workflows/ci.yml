@@ -45,8 +45,8 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --global user.email "santiagoagustinfernandez@gmail.com"
-          git config --global user.name "Santiago Fernandez"
+          git config --global user.email "veronmatias94@gmail.com"
+          git config --global user.name "Matias Veron"
           git add app-chart/values.yaml
           git commit -m "Update tag to '${{ env.BUILD_TAG }}' after building image"
           git push
